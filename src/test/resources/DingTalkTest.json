@@ -1,0 +1,7 @@
+{
+  "msgtype": "markdown",
+  "markdown": {
+    "title": "${title}",
+    "text": "### ${title}\n> - 机器编号：${deviceCode}\n> - 机器名称：${deviceName}\n> - 离线时间：${time}\n [[查看详情]](https://baidu.com)"
+  }
+}

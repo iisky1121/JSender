@@ -1,0 +1,5 @@
+{
+  "TtsCode": "#阿里云语音模板ID#",
+  "CalledNumber": "${phone}",
+  "TtsParam": "{\"name\":\"${title}\",\"lastTime\":\"${time}\"}",
+}

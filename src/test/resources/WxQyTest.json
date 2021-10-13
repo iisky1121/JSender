@@ -1,0 +1,10 @@
+{
+  "agentid": "#企业微信应用ID#",
+  "touser": "${userId}",
+  "textcard": {
+    "description": "\n机器编号：${deviceCode}\n \n机器名称：${deviceName}\n \n离线时间：${time}\n \n",
+    "title": "您的监控设备触发【${title}】规则",
+    "url": "#"
+  },
+  "msgtype": "textcard"
+}

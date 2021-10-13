@@ -1,0 +1,13 @@
+*.class
+/*.log
+/.classpath
+/target/
+/_logs/
+*.iml
+*.tmp
+/.idea/
+/.externalToolBuilders/
+/.settings/
+/.project
+/bin/
+.project

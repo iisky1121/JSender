@@ -1,0 +1,21 @@
+{
+  "WxQySender": {
+    "template": {
+      "agentid": "1000003",
+      "touser": "${userId}",
+      "textcard": {
+        "description": "\n机器编号：${deviceCode}\n \n机器名称：${deviceName}\n \n离线时间：${time}\n \n",
+        "title": "您的监控设备触发【${title}】规则",
+        "url": "https://baidu.com"
+      },
+      "msgtype": "textcard"
+    }
+  },
+  "DingTalkSender": {
+    "msgtype": "markdown",
+    "markdown": {
+      "title": "${title}",
+      "text": "### ${title}\n> - 机器编号：${deviceCode}\n> - 机器名称：${deviceName}\n> - 离线时间：${time}\n [[查看详情]](https://baidu.com)"
+    }
+  }
+}

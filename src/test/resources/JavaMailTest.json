@@ -1,0 +1,5 @@
+{
+  "subject": "您的监控设备触发【${title}】规则",
+  "recipient": "${email}",
+  "content": "\n机器编号：${deviceCode}\n \n机器名称：${deviceName}\n \n离线时间：${time}\n \n"
+}

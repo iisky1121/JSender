@@ -1,0 +1,6 @@
+{
+  "TemplateCode": "#阿里云短信模板ID#",
+  "PhoneNumbers": "${phone}",
+  "TemplateParam": "{\"reason\":\"${title}\",\"time\":\"${time}\",\"device\":\"${deviceCode}\"}",
+  "SignName": "#阿里云短信签名#"
+}

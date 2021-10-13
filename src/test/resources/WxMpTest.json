@@ -1,0 +1,22 @@
+{
+  "touser": "${openId}",
+  "template_id": "-KzGnyJlZfVy_2p6GplQ-vdYMjqPv2FJ-Gq_EpNlmj4",
+  "data": {
+    "keyword1": {
+      "value": "${deviceCode}"
+    },
+    "keyword2": {
+      "value": "${deviceName}"
+    },
+    "remark": {
+      "value": "离线时间：${time}"
+    },
+    "first": {
+      "value": "您的监控设备触发【${title}】规则"
+    }
+  },
+  "miniprogram": {
+    "pagepath": "pages/nearby/index?id=9349",
+    "appid": "wxe448173ee6c6exx"
+  }
+}
