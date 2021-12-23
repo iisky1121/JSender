@@ -69,13 +69,4 @@ public class JavaMailCfg implements IApiCfg {
         this.port = port;
     }
 
-    @Override
-    public void setAppId(String appId) {
-        setAccount(appId);
-    }
-
-    @Override
-    public String getAppId() {
-        return getAccount();
-    }
 }

@@ -38,8 +38,10 @@ public class TemplateUtil {
             //如果模板中的参数未传入值，直接返回null
             return null;
         }
-        for (Map.Entry<String, Object> entry : paras.entrySet()) {
-            template = template.replaceAll("\\$\\{" + entry.getKey() + "\\}", entry.getValue() == null ? "" : entry.getValue().toString());
+        if (paras != null) {
+            for (Map.Entry<String, Object> entry : paras.entrySet()) {
+                template = template.replaceAll("\\$\\{" + entry.getKey() + "\\}", entry.getValue() == null ? "" : entry.getValue().toString());
+            }
         }
         return template;
     }

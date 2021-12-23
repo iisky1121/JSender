@@ -28,6 +28,7 @@ JSender 统一多渠道推送消息格式，支持http接口模板推送和批�
 2. 复杂的业务需求建议使用模板发送需求，在模板设置通用的前提下，后续增加消息渠道理论上只需要修改模板内容即可实现该渠道消息发送功能，且无需修改调用方代码。
 3. 如需控制控制模板中已配置的消息渠道，可以通过`level`（默认0，不建议）或者模板中的`$Sender.level`（建议）控制，`$Sender.level>level` 则发送
 4. 【[使用说明参考](doc/use.md)】
+5. 数据库中与代码中的`appId`参数，与渠道的`appId`无关系（不是微信公众号的`appId`参数）
 
 #### 消息发送-自定义
 > 接口： `/send`
@@ -37,8 +38,9 @@ JSender 统一多渠道推送消息格式，支持http接口模板推送和批�
 | 参数名称     | 参数类型        | 是否必填          | 说明          |
 |----------|-------------|---------------|-------------|
 | data    | JSON      | 否 | 公共模板参数值    |
-| $Sender.appId    | String      | appId和cfg必填一个 | 配置信息唯一标识    |
-| $Sender.cfg      | JSON        | appId和cfg必填一个 | 配置信息,优先appId        |
+| appId    | String    | appId、$.appId和$.cfg必填一个    | 配置信息，优先级低    | 
+| $Sender.appId    | String      | appId、$.appId和$.cfg必填一个 | 配置信息，优先级中    |
+| $Sender.cfg      | JSON        | appId、$.appId和$.cfg必填一个 | 配置信息，优先级高        |
 | $Sender.template | String或JSON | 是             | 发送内容模板，可带参数 |
 | $Sender.data     | JSON        | 否             | 模板内容参数值，相同key覆盖data参数值     |
 
@@ -69,7 +71,7 @@ JSender 统一多渠道推送消息格式，支持http接口模板推送和批�
 }
 ```
 #####   单渠道单用户例子2
->  传入`appId`参数，通过系统获取配置
+>  传入`$.appId`参数，通过系统获取配置
 ```
 {
   "data": {
@@ -79,7 +81,7 @@ JSender 统一多渠道推送消息格式，支持http接口模板推送和批�
     "deviceName": "cs079"
   },
   "JavaMailSender": {
-    "appId": "APPID",
+    "appId": "demo",
     "template": {
       "subject": "您的监控设备触发【${title}】规则",
       "recipient": "${email}",
@@ -92,7 +94,7 @@ JSender 统一多渠道推送消息格式，支持http接口模板推送和批�
 }
 ```
 #####   多渠道多用户例子1
->  多用户发送，直接传入一个数组格式参数，如下面配置：`JavaMailSender.data.email`和`WxQySender.data.userId`
+>  多用户发送，传入`$.appId`和数组格式参数，如下面配置：`JavaMailSender.data.email`和`WxQySender.data.userId`
 ```
 {
   "data": {
@@ -102,7 +104,7 @@ JSender 统一多渠道推送消息格式，支持http接口模板推送和批�
     "deviceName": "cs079"
   },
   "JavaMailSender": {
-    "appId": "APPID",
+    "appId": "demo",
     "template": {
       "subject": "您的监控设备触发【${title}】规则",
       "recipient": "${email}",
@@ -113,7 +115,7 @@ JSender 统一多渠道推送消息格式，支持http接口模板推送和批�
     }
   },
   "WxQySender": {
-    "appId": "APPID",
+    "appId": "demo",
     "template": {
       "agentid": "1000003",
       "touser": "${userId}",
@@ -130,6 +132,41 @@ JSender 统一多渠道推送消息格式，支持http接口模板推送和批�
   }
 }
 ```
+#####   多渠道多用户例子2
+>  多用户发送，传入`appId`和数组格式参数，如下面配置：`data.email`和`data.userId`
+```
+{
+  "appId": "demo",
+  "data": {
+    "deviceCode": "cs079",
+    "time": "2021-09-16 15:40:04",
+    "title": "离线告警",
+    "deviceName": "cs079",
+    "email": ["xxx1@163.com", "xxx2@163.com"],
+    "userId": ["userId1", "userId2"]
+  },
+  "JavaMailSender": {
+    "template": {
+      "subject": "您的监控设备触发【${title}】规则",
+      "recipient": "${email}",
+      "content": "\n机器编号：${deviceCode}\n \n机器名称：${deviceName}\n \n离线时间：${time}\n \n"
+    }
+  },
+  "WxQySender": {
+    "template": {
+      "agentid": "1000003",
+      "touser": "${userId}",
+      "textcard": {
+        "description": "\n机器编号：${deviceCode}\n \n机器名称：${deviceName}\n \n离线时间：${time}\n \n",
+        "title": "您的监控设备触发【${title}】规则",
+        "url": "#"
+      },
+      "msgtype": "textcard"
+    }
+  }
+}
+```
+
 #### 消息发送-模板
 > 接口： `/template/send`
 
@@ -140,13 +177,16 @@ JSender 统一多渠道推送消息格式，支持http接口模板推送和批�
 | templateId    | String      | 是 | 模板ID    |
 | level    | Integer      | 否 | （不建议）默认0，小于模板$Sender.level才触发该渠道    |  
 | data    | JSON      | 否 | 公共模板参数值    |
-| $Sender.appId    | String      | appId和cfg必填一个 | 配置信息唯一标识,默认模板配置里面的appId参数    |
-| $Sender.cfg      | JSON        | appId和cfg必填一个 | 配置信息,优先appId        |
+| appId    | String    | appId、$.appId和$.cfg必填一个    | 配置信息，优先级低    | 
+| $Sender.appId    | String      | appId、$.appId和$.cfg必填一个 | 配置信息，优先级中    |
+| $Sender.cfg      | JSON        | appId、$.appId和$.cfg必填一个 | 配置信息，优先级高        |
 | $Sender.data     | JSON        | 否             | 模板内容参数值，相同key覆盖data参数值     |
 
 ##### 发送例子1
 ```
 {
+  "templateId": "",
+  "appId": "demo",
   "data": {
     "deviceCode": "cs079",
     "time": "2021-09-16 15:40:04",
@@ -168,6 +208,8 @@ JSender 统一多渠道推送消息格式，支持http接口模板推送和批�
 ##### 发送例子2
 ```
 {
+  "templateId": "",
+  "appId": "demo",
   "data": {
     "deviceCode": "cs079",
     "time": "2021-09-16 15:40:04",
@@ -187,7 +229,7 @@ JSender 统一多渠道推送消息格式，支持http接口模板推送和批�
 
 #####  从第三方系统获取
 >  `api_config` 表 `http` 字段
-- `POST` `application/json` 请求，接口返回参数值需为`json`格式（注意）
+- `POST` `application/json` 请求，接口返回参数值需为`json`或者`xml`格式（注意）
 - 配置参数项 {url, request, response}
 - `request`配置值作为接口请求内容体，支持变量`${appId}`，如果`appId`参数为虚拟值，则需要写死正确值
 - `response`配置值作为最终配置参数模板，接口返回值作为模板参数
@@ -268,3 +310,14 @@ util  -- 工具包
 3.  获取配置业务查看 `ApiCfgService.java`
 4.  获取模板业务查看 `ApiTemplateService.java`
 5.  发送等其他功能查看 `JSender.java`
+
+#### 更新日志
+#####  v1.1 (2021-12-23)
+````
+1.  支持xml格式；
+2.  发送接口支持动态appId参数传入，并通过appId参数获取配置信息；
+3.  加载默认配置，解决例如公众号token全部从第三方系统获取，不需要单独配置；
+4.  修复$.user.userId，层级json参数无法获取的问题；
+5.  修改数据库脚本文件，移除模板默认appId参数值配置；
+6   WxQyCfg增加agentId属性值；
+ ```` 

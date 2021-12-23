@@ -42,13 +42,4 @@ public class AliYunCfg implements IApiCfg {
         this.accessSecret = accessSecret;
     }
 
-    @Override
-    public void setAppId(String appId) {
-        setAccessKeyId(appId);
-    }
-
-    @Override
-    public String getAppId() {
-        return getAccessKeyId();
-    }
 }

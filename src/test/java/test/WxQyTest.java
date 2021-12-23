@@ -33,6 +33,7 @@ public class WxQyTest {
 
     public static void main(String[] args) {
         JSender.send(WxQySender.class, new WxQyCfg() {{
+            setAgentId("");
             setCorpId("");
             setCorpSecret("");
         }}, new JSONObject() {{

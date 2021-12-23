@@ -17,6 +17,7 @@
 package com.iisky.jsender.sdk;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.XmlUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.log.StaticLog;
 import com.alibaba.fastjson.JSONObject;
@@ -94,15 +95,25 @@ public class ApiRequest {
         return v;
     }
 
-    public static Resp jsonRender(String response, Function<JSONObject, Resp> function) {
+    public static Resp render(String response, Function<JSONObject, Resp> function) {
+        JSONObject json = responseToJson(response);
+        if (json == null || json.isEmpty()) {
+            return Resp.failure();
+        }
+        return function.apply(json);
+    }
+
+    public static JSONObject responseToJson(String response) {
         try {
-            JSONObject json = JSONObject.parseObject(response);
-            if (json == null || json.isEmpty()) {
-                return Resp.failure();
+            JSONObject json;
+            if (response.startsWith("<") && response.endsWith(">")) {
+                json = new JSONObject(XmlUtil.xmlToMap(response));
+            } else {
+                json = JSONObject.parseObject(response);
             }
-            return function.apply(json);
+            return json;
         } catch (Exception e) {
-            return Resp.failure().setCause(response);
+            return null;
         }
     }
 }

@@ -39,9 +39,6 @@ import java.util.function.Supplier;
  */
 public class JSender {
 
-    private final static String DATA_KEY = "data";
-    private final static String LEVEL_KEY = "level";
-
     public static class Template {
         private static ITemplateSender templateSender = new TemplateSender();
 
@@ -54,15 +51,14 @@ public class JSender {
             if (templateJson == null || templateJson.isEmpty()) {
                 return Resp.failure("模板为空");
             }
-            JSONObject basicData = argJson.getJSONObject(DATA_KEY);
-            int level = argJson.getIntValue(LEVEL_KEY);
-            return JSender.send(basicData, senderName -> {
+            BasicSenderBean basicSenderBean = argJson.toJavaObject(BasicSenderBean.class);
+            return JSender.send(basicSenderBean.getData(), senderName -> {
                 if (!templateJson.containsKey(senderName)) {
                     return null;
                 }
                 SenderBean templateBean = templateJson.getJSONObject(senderName).toJavaObject(SenderBean.class);
                 //template level大于传入level才触发该渠道的推送，template level不配置默认推送
-                if (templateBean.getLevel() != null && templateBean.getLevel() > level) {
+                if (templateBean.getLevel() != null && basicSenderBean.getLevel() != null && templateBean.getLevel() > basicSenderBean.getLevel()) {
                     return null;
                 }
                 if (argJson.containsKey(senderName)) {
@@ -73,18 +69,25 @@ public class JSender {
                     templateBean.setCfg(requestBean.getCfg());
                     templateBean.setData(requestBean.getData());
                 }
+                if (StrUtil.isBlank(templateBean.getAppId())) {
+                    templateBean.setAppId(basicSenderBean.getAppId());
+                }
                 return templateBean;
             });
         }
     }
 
     public static Resp send(JSONObject argJson) {
-        JSONObject basicData = argJson.getJSONObject(DATA_KEY);
-        return send(basicData, senderName -> {
+        BasicSenderBean basicSenderBean = argJson.toJavaObject(BasicSenderBean.class);
+        return send(basicSenderBean.getData(), senderName -> {
             if (!argJson.containsKey(senderName)) {
                 return null;
             }
-            return argJson.getJSONObject(senderName).toJavaObject(SenderBean.class);
+            SenderBean senderBean = argJson.getJSONObject(senderName).toJavaObject(SenderBean.class);
+            if (StrUtil.isBlank(senderBean.getAppId()) && StrUtil.isNotBlank(basicSenderBean.getAppId())) {
+                senderBean.setAppId(basicSenderBean.getAppId());
+            }
+            return senderBean;
         });
     }
 
@@ -190,6 +193,7 @@ public class JSender {
         if (keys.isEmpty()) {
             return json;
         }
+        Map<String, Object> spotMap = getSpotMap(basicData, data);
         for (String key : keys) {
             if (data != null && data.get(key) != null) {
                 json.put(key, data.get(key));
@@ -197,10 +201,14 @@ public class JSender {
             }
             if (basicData != null && basicData.get(key) != null) {
                 json.put(key, basicData.get(key));
+                continue;
+            }
+            if (key.contains(".") && spotMap.get(key) != null) {
+                json.put(key, spotMap.get(key));
             }
         }
         JSONObject resultJson = new JSONObject();
-        resultJson.putAll(formatData(null, json));
+        resultJson.putAll(json);
         //模板文件可以通过参数获取值，例如:${cfg.appId}
         JSONObject cfgJson = (JSONObject) JSON.toJSON(cfg);
         for (Map.Entry<String, Object> entry : cfgJson.entrySet()) {
@@ -209,6 +217,14 @@ public class JSender {
             }
         }
         return resultJson;
+    }
+
+    private static Map<String, Object> getSpotMap(JSONObject basicData, JSONObject data) {
+        Map<String, Object> spotMap = formatData(null, basicData);
+        if (data != null && !data.isEmpty()) {
+            spotMap.putAll(formatData(null, data));
+        }
+        return spotMap;
     }
 
     /**
@@ -246,11 +262,7 @@ public class JSender {
             Class<? extends IApiCfg> clazz = SenderFactory.getSenderCfgClass(sender);
             return cfgJson.toJavaObject(clazz);
         };
-        IApiCfg cfg = supplier.get();
-        if (cfg != null && StrUtil.isBlank(cfg.getAppId())) {
-            cfg.setAppId(appId);
-        }
-        return cfg;
+        return supplier.get();
     }
 
     static class SenderBean {
@@ -299,6 +311,36 @@ public class JSender {
 
         public void setCfg(JSONObject cfg) {
             this.cfg = cfg;
+        }
+
+        public JSONObject getData() {
+            return data;
+        }
+
+        public void setData(JSONObject data) {
+            this.data = data;
+        }
+    }
+
+    static class BasicSenderBean {
+        private String appId;
+        private Integer level;
+        private JSONObject data;
+
+        public String getAppId() {
+            return appId;
+        }
+
+        public void setAppId(String appId) {
+            this.appId = appId;
+        }
+
+        public Integer getLevel() {
+            return level;
+        }
+
+        public void setLevel(Integer level) {
+            this.level = level;
         }
 
         public JSONObject getData() {

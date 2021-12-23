@@ -21,7 +21,4 @@ package com.iisky.jsender.sdk;
  * @date 2021-09-01
  */
 public interface IApiCfg {
-    void setAppId(String appId);
-
-    String getAppId();
 }

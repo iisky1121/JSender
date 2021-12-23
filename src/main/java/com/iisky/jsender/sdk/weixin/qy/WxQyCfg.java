@@ -23,10 +23,19 @@ import com.iisky.jsender.sdk.IApiCfg;
  * @date 2021-09-01
  */
 public class WxQyCfg implements IApiCfg {
-    private String corpId;//corpId
+    private String agentId;
+    private String corpId;
     private String corpSecret;
     //设置一个accessToken值，方便从其他系统获取
     private String accessToken;
+
+    public String getAgentId() {
+        return agentId;
+    }
+
+    public void setAgentId(String agentId) {
+        this.agentId = agentId;
+    }
 
     public String getCorpId() {
         return corpId;
@@ -52,14 +61,4 @@ public class WxQyCfg implements IApiCfg {
         this.accessToken = accessToken;
     }
 
-
-    @Override
-    public void setAppId(String appId) {
-        setCorpId(appId);
-    }
-
-    @Override
-    public String getAppId() {
-        return getCorpId();
-    }
 }

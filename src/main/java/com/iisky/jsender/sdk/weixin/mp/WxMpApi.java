@@ -30,15 +30,15 @@ import java.util.function.Supplier;
  */
 public class WxMpApi {
 
-    private static WxMpAccessToken getAccessToken(String corpId, String corpSecret) {
-        String token = Cache.get(WxMpAccessToken.class, corpSecret);
+    private static WxMpAccessToken getAccessToken(String appId, String appSecret) {
+        String token = Cache.get(WxMpAccessToken.class, appId);
         if (StrUtil.isNotBlank(token)) {
             WxMpAccessToken result = new WxMpAccessToken(token);
             if (result != null && result.isAvailable()) {
                 return result;
             }
         }
-        return refreshAccessToken(corpId, corpSecret);
+        return refreshAccessToken(appId, appSecret);
     }
 
     private final static String token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential";

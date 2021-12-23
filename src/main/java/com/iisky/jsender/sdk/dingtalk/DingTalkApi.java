@@ -60,7 +60,7 @@ public class DingTalkApi {
     }
 
     private static Resp render(String response) {
-        return ApiRequest.jsonRender(response, json -> {
+        return ApiRequest.render(response, json -> {
             int errorCode = json.getIntValue("errcode");
             String errorMsg = json.getString("errmsg");
             if (errorCode == 0) {

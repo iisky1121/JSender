@@ -26,7 +26,7 @@ import com.iisky.jsender.utils.Resp;
 public class WeiXin {
 
     public static Resp render(String response) {
-        return ApiRequest.jsonRender(response, json -> {
+        return ApiRequest.render(response, json -> {
             int errorCode = json.getIntValue("errcode");
             String errorMsg = json.getString("errmsg");
             if (errorCode == 0) {

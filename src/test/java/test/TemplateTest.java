@@ -29,16 +29,14 @@ public class TemplateTest {
     public static void main(String[] args) {
         JSONObject templateJson = JSONObject.parseObject(ITest.getTemplateStr("template.json"));
         JSender.Template.send(new JSONObject() {{
+            put("appId", "demo");
             put("data", ITest.basicJson);
             put(WxQySender.class.getSimpleName(), new JSONObject() {{
-                //当模板里面没有配置wxQy.appId参数时，可以指定appId
-                put("appId", "wxe448173ee6c6efxx");
                 put("data", new JSONObject() {{
                     put("userId", "MengHuanPaoYing");
                 }});
             }});
             put(WxMpSender.class.getSimpleName(), new JSONObject() {{
-                //当模板里面没有配置wxMp.appId参数时，可以指定appId
                 put("data", new JSONObject() {{
                     put("openId", "oKofB1Pq1BT-Ze9oS_oMYPZ9WzQA");
                 }});

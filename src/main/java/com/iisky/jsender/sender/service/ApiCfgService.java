@@ -29,11 +29,17 @@ import com.iisky.jsender.utils.TemplateUtil;
  */
 public class ApiCfgService {
 
+    private final static String DEFAULT_APP_ID = "default";
+
     public static <T extends IApiCfg> T getApiConfig(String appId, Class<T> clazz) {
         if (StrUtil.isBlank(appId)) {
             return null;
         }
         ApiConfigTable.Bean bean = ApiConfigTable.dao.findById(clazz.getSimpleName(), appId);
+        if (bean == null) {
+            //加载默认配置，解决例如公众号token全部从第三方系统获取，不需要单独配置
+            bean = ApiConfigTable.dao.findById(clazz.getSimpleName(), DEFAULT_APP_ID);
+        }
         if (bean == null) {
             return null;
         }
@@ -61,7 +67,7 @@ public class ApiCfgService {
         if (StrUtil.isBlank(responseBody)) {
             return null;
         }
-        JSONObject responseJson = JSONObject.parseObject(responseBody);
+        JSONObject responseJson = ApiRequest.responseToJson(responseBody);
         String cfgBody = TemplateUtil.render(bean.getResponse(), responseJson);
         return toCfg(appId, clazz, cfgBody);
     }
@@ -70,11 +76,7 @@ public class ApiCfgService {
         if (StrUtil.isBlank(body)) {
             return null;
         }
-        T t = JSONObject.parseObject(body).toJavaObject(clazz);
-        if (StrUtil.isBlank(t.getAppId())) {
-            t.setAppId(appId);
-        }
-        return t;
+        return JSONObject.parseObject(body).toJavaObject(clazz);
     }
 
     private static String getObjectStr(Object object) {

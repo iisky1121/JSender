@@ -74,10 +74,7 @@ class SenderFactory {
             if (cfgClass != null) {
                 return cfgClass;
             }
-            Type t = senderClass.getGenericSuperclass();
-            if (t == null) {
-                t = senderClass.getGenericInterfaces()[0];
-            }
+            Type t = senderClass.getGenericInterfaces()[0];
             Type[] params = ((ParameterizedType) t).getActualTypeArguments();
             cfgClass = (Class<T>) params[0];
             cfgMapping.put(keyName, cfgClass);

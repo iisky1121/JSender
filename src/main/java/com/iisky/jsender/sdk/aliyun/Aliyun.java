@@ -93,7 +93,7 @@ class Aliyun {
     }
 
     public static Resp render(String response) {
-        return ApiRequest.jsonRender(response, json -> {
+        return ApiRequest.render(response, json -> {
             String code = json.getString("Code");
             String errorMsg = json.getString("Message");
             if ("OK".equalsIgnoreCase(code)) {
