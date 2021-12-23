@@ -38,9 +38,9 @@ JSender 统一多渠道推送消息格式，支持http接口模板推送和批�
 | 参数名称     | 参数类型        | 是否必填          | 说明          |
 |----------|-------------|---------------|-------------|
 | data    | JSON      | 否 | 公共模板参数值    |
-| appId    | String    | appId、$.appId和$.cfg必填一个    | 配置信息，优先级低    | 
-| $Sender.appId    | String      | appId、$.appId和$.cfg必填一个 | 配置信息，优先级中    |
-| $Sender.cfg      | JSON        | appId、$.appId和$.cfg必填一个 | 配置信息，优先级高        |
+| appId    | String    | `appId`、`$.appId`和`$.cfg`必填一个    | 配置信息，优先级低    | 
+| $Sender.appId    | String      | `appId`、`$.appId`和`$.cfg`必填一个 | 配置信息，优先级中    |
+| $Sender.cfg      | JSON        | `appId`、`$.appId`和`$.cfg`必填一个 | 配置信息，优先级高        |
 | $Sender.template | String或JSON | 是             | 发送内容模板，可带参数 |
 | $Sender.data     | JSON        | 否             | 模板内容参数值，相同key覆盖data参数值     |
 
@@ -177,9 +177,9 @@ JSender 统一多渠道推送消息格式，支持http接口模板推送和批�
 | templateId    | String      | 是 | 模板ID    |
 | level    | Integer      | 否 | （不建议）默认0，小于模板$Sender.level才触发该渠道    |  
 | data    | JSON      | 否 | 公共模板参数值    |
-| appId    | String    | appId、$.appId和$.cfg必填一个    | 配置信息，优先级低    | 
-| $Sender.appId    | String      | appId、$.appId和$.cfg必填一个 | 配置信息，优先级中    |
-| $Sender.cfg      | JSON        | appId、$.appId和$.cfg必填一个 | 配置信息，优先级高        |
+| appId    | String    | `appId`、`$.appId`和`$.cfg`必填一个    | 配置信息，优先级低    | 
+| $Sender.appId    | String      | `appId`、`$.appId`和`$.cfg`必填一个 | 配置信息，优先级中    |
+| $Sender.cfg      | JSON        | `appId`、`$.appId`和`$.cfg`必填一个 | 配置信息，优先级高        |
 | $Sender.data     | JSON        | 否             | 模板内容参数值，相同key覆盖data参数值     |
 
 ##### 发送例子1
