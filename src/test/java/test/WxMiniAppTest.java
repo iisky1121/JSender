@@ -24,7 +24,7 @@ import com.iisky.jsender.sender.impl.WxMiniAppSender;
 /**
  * 信小程序 - 模板消息推送到公众号
  *
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 public class WxMiniAppTest {

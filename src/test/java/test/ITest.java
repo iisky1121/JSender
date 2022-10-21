@@ -21,7 +21,7 @@ import cn.hutool.core.io.file.FileReader;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 public interface ITest {

@@ -24,7 +24,7 @@ import com.iisky.jsender.sender.impl.AliSmsSender;
 /**
  * 阿里云 - 短信服务
  *
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 public class AliSmsTest {

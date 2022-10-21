@@ -20,7 +20,7 @@ import com.iisky.jsender.cache.ICache;
 import com.iisky.jsender.utils.Redis;
 
 /**
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 public class RedisCache implements ICache {

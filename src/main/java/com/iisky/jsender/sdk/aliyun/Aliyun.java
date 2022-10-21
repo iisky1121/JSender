@@ -28,7 +28,7 @@ import java.util.*;
 import java.util.function.Consumer;
 
 /**
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 class Aliyun {

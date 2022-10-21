@@ -19,7 +19,7 @@ package com.iisky.jsender.cache;
 import com.iisky.jsender.cache.impl.MemoryCache;
 
 /**
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 public class Cache {

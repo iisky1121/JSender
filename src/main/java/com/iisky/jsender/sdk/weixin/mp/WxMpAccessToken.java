@@ -21,7 +21,7 @@ import com.alibaba.fastjson.JSONObject;
 import java.io.Serializable;
 
 /**
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 public class WxMpAccessToken implements Serializable {

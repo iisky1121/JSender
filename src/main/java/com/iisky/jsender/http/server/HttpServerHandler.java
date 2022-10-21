@@ -26,7 +26,7 @@ import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.util.CharsetUtil;
 
 /**
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {

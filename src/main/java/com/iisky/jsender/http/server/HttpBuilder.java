@@ -29,7 +29,7 @@ import io.netty.util.internal.StringUtil;
 import org.slf4j.MDC;
 
 /**
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 class HttpBuilder {

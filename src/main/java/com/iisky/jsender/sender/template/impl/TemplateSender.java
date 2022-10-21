@@ -21,7 +21,7 @@ import com.iisky.jsender.sender.service.ApiTemplateService;
 import com.iisky.jsender.sender.template.ITemplateSender;
 
 /**
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 public class TemplateSender implements ITemplateSender {

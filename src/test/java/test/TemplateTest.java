@@ -22,7 +22,7 @@ import com.iisky.jsender.sender.impl.WxMpSender;
 import com.iisky.jsender.sender.impl.WxQySender;
 
 /**
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 public class TemplateTest {

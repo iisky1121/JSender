@@ -24,7 +24,7 @@ import com.iisky.jsender.sender.impl.AliVmsSender;
 /**
  * 阿里云 - 语音通知
  *
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 public class AliVmsTest {

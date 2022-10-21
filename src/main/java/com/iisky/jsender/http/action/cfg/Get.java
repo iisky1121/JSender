@@ -23,7 +23,7 @@ import com.iisky.jsender.http.Router;
 import com.iisky.jsender.utils.Resp;
 
 /**
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-29
  */
 @Router("/cfg/get")

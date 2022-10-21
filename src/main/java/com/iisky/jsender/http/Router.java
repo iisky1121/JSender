@@ -19,7 +19,7 @@ package com.iisky.jsender.http;
 import java.lang.annotation.*;
 
 /**
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 @Inherited

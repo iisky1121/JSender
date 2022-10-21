@@ -23,7 +23,7 @@ import cn.hutool.setting.Setting;
 import java.util.function.Supplier;
 
 /**
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 public class Redis {

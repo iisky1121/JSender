@@ -19,7 +19,7 @@ package com.iisky.jsender.db;
 import java.util.Set;
 
 /**
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-30
  */
 public abstract class DbTableBean {

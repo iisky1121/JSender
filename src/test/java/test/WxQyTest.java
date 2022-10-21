@@ -26,7 +26,7 @@ import java.util.Arrays;
 /**
  * 企业微信 - 应用消息推送
  *
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 public class WxQyTest {

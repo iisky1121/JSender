@@ -24,7 +24,7 @@ import com.iisky.jsender.sdk.IApiCfg;
 import com.iisky.jsender.utils.TemplateUtil;
 
 /**
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 public class ApiCfgService {

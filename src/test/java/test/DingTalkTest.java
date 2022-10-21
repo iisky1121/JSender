@@ -24,7 +24,7 @@ import com.iisky.jsender.sender.impl.DingTalkSender;
 /**
  * 钉钉 - 群机器人
  *
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 public class DingTalkTest {

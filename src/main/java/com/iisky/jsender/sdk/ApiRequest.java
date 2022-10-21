@@ -29,7 +29,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 public class ApiRequest {
@@ -61,21 +61,19 @@ public class ApiRequest {
         } catch (Exception e) {
             StaticLog.error(e);
         } finally {
-            StringBuilder builder = new StringBuilder();
-            builder.append("\n");
-            builder.append("接口地址: ");
-            builder.append(url);
-            builder.append("\n");
-            builder.append("接口耗时: ");
-            builder.append(System.currentTimeMillis() - start);
-            builder.append("ms");
-            builder.append("\n");
-            builder.append("接口参数: ");
-            builder.append(input);
-            builder.append("\n");
-            builder.append("返回结果: ");
-            builder.append(output);
-            StaticLog.info(builder.toString());
+            StaticLog.info("\n" +
+                    "接口地址: " +
+                    url +
+                    "\n" +
+                    "接口耗时: " +
+                    (System.currentTimeMillis() - start) +
+                    "ms" +
+                    "\n" +
+                    "接口参数: " +
+                    input +
+                    "\n" +
+                    "返回结果: " +
+                    output);
         }
         return output;
     }

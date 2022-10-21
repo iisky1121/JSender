@@ -21,32 +21,35 @@ import org.slf4j.MDC;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 /**
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 public class ThreadPool {
 
-    private final static ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 4);
+    public static Integer CPU_CORES = Runtime.getRuntime().availableProcessors();
+
+    private static final ThreadPoolExecutor executor = new ThreadPoolExecutor(CPU_CORES * 2, CPU_CORES * 4,
+            0L, TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<>());
 
     public static <T> void execute(List<T> list, Consumer<T> consumer) {
-        getMDC(map -> {
-            execute(new ArrayList<Runnable>() {{
-                for (T t : list) {
-                    add(() -> {
-                        if (map != null) {
-                            MDC.setContextMap(map);
-                        }
-                        consumer.accept(t);
-                        MDC.clear();
-                    });
-                }
-            }});
-        });
+        getMDC(map -> execute(new ArrayList<Runnable>() {{
+            for (T t : list) {
+                add(() -> {
+                    if (map != null) {
+                        MDC.setContextMap(map);
+                    }
+                    consumer.accept(t);
+                    MDC.clear();
+                });
+            }
+        }}));
     }
 
     private static void execute(List<Runnable> list) {

@@ -23,7 +23,7 @@ import com.alibaba.fastjson.JSONObject;
 import java.util.Map;
 
 /**
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-10-11
  */
 public interface IDbTable {

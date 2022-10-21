@@ -24,7 +24,7 @@ import com.iisky.jsender.sender.impl.WxMpSender;
 /**
  * 微信公众号 - 模板消息
  *
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 public class WxMpTest {

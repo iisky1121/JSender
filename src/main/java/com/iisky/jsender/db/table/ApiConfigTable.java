@@ -21,7 +21,7 @@ import com.iisky.jsender.db.DbTable;
 import com.iisky.jsender.db.DbTableBean;
 
 /**
- * @author iisky1121@foxmail.com
+ * @author iisky1121
  * @date 2021-09-01
  */
 public class ApiConfigTable extends DbTable<ApiConfigTable.Bean> {
