@@ -46,12 +46,22 @@ public class AliSmsApi {
         String regionId = templateJson.getOrDefault("RegionId", DEFAULT_REGION).toString();
         Map<String, String> regionConfigMap = regionMap.get(regionId);
         return Aliyun.request(cfg.getAccessKeyId(), cfg.getAccessSecret(), regionConfigMap.get("host"), map -> {
-            //国内短信或者国际短信判断
-            map.put("Action", regionId.equals(DEFAULT_REGION) ? "SendSms" : "SendMessageToGlobe");
-            map.put("Version", regionConfigMap.get("version"));
-            map.put("RegionId", regionId);
-            for (Map.Entry<String, Object> entry : templateJson.entrySet()) {
-                map.put(entry.getKey(), (String) entry.getValue());
+            //国内短信
+            if (regionId.equals(DEFAULT_REGION)) {
+                map.put("Action", "SendSms");
+                map.put("Version", regionConfigMap.get("version"));
+                map.put("RegionId", regionId);
+                for (Map.Entry<String, Object> entry : templateJson.entrySet()) {
+                    map.put(entry.getKey(), (String) entry.getValue());
+                }
+            } else {
+                //国际短信
+                map.put("Action", "SendMessageToGlobe");
+                map.put("Version", regionConfigMap.get("version"));
+                templateJson.remove("RegionId");
+                for (Map.Entry<String, Object> entry : templateJson.entrySet()) {
+                    map.put(entry.getKey(), (String) entry.getValue());
+                }
             }
         });
     }

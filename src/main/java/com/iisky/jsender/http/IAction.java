@@ -17,10 +17,13 @@
 package com.iisky.jsender.http;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.db.PageResult;
 import com.alibaba.fastjson.JSONObject;
 import com.iisky.jsender.db.DbTableBean;
 import com.iisky.jsender.utils.Resp;
 
+import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 /**
@@ -30,26 +33,65 @@ import java.util.function.Supplier;
 public interface IAction {
     Resp action(JSONObject argJson);
 
+    static Resp page(JSONObject argJson, BiFunction<Integer, Integer, PageResult<?>> function) {
+        int pageNumber = argJson.getIntValue("pageNumber");
+        int pageSize = argJson.getIntValue("pageSize");
+        PageResult<?> page = function.apply(pageNumber - 1, pageSize);
+        return Resp.success(new JSONObject() {{
+            put("totalRow", page.getTotal());
+            put("pageNumber", page.getPage() + 1);
+            put("lastPage", page.isLast());
+            put("firstPage", page.isFirst());
+            put("totalPage", page.getTotalPage());
+            put("pageSize", page.getPageSize());
+            put("list", page);
+        }});
+    }
+
     static Resp emptyCheck(JSONObject argJson, String[] attrs, Supplier<Resp> supplier) {
-        Supplier<String> check = () -> {
+        Supplier<Resp> check = () -> {
             for (String attr : attrs) {
-                Object object = argJson.get(attr);
-                if (object == null || (object instanceof String && StrUtil.isBlank((String) object))) {
-                    return attr;
+                if (attr.contains("|")) {
+                    String args[] = attr.split("[|]");
+                    if (isBlank(argJson, args)) {
+                        return Resp.failure(String.format("Attribute [%s] can not be blank.", StrUtil.join(" or ", args)));
+                    }
+                } else if (isBlank(argJson, attr)) {
+                    return Resp.failure(String.format("Attribute [%s] can not be blank.", attr));
                 }
             }
-            return null;
+            return Resp.success();
         };
-        String emptyAttr = check.get();
-        if (StrUtil.isNotBlank(emptyAttr)) {
-            return Resp.failure(String.format("参数[%s]不能为空值", emptyAttr));
+        Resp resp = check.get();
+        if (!resp.succeed()) {
+            return resp;
         }
         return supplier.get();
     }
 
+    static boolean isBlank(Map<String, ?> map, String attr) {
+        Object value = map.get(attr);
+        if (value == null) {
+            return true;
+        }
+        if (value instanceof String) {
+            return StrUtil.isBlank((String) value);
+        }
+        return false;
+    }
+
+    static boolean isBlank(Map<String, ?> map, String[] attrs) {
+        for (String arg : attrs) {
+            if (!isBlank(map, arg)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     static Resp render(DbTableBean bean) {
         if (bean == null) {
-            return Resp.failure("数据不存在");
+            return Resp.failure("Data does not exist");
         }
         return Resp.success(bean);
     }

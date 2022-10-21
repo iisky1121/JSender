@@ -17,6 +17,10 @@
 package com.iisky.jsender.db;
 
 import cn.hutool.db.Entity;
+import cn.hutool.db.PageResult;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author iisky1121
@@ -73,6 +77,36 @@ public abstract class DbTable<T extends DbTableBean> implements IDbTable {
                 return null;
             }
             return entity.toBean(beanClass());
+        } catch (Exception e) {
+            throw new DbException(e.getMessage());
+        }
+    }
+
+    public PageResult<T> page(int pageNumber, int pageSize, Entity where) {
+        try {
+            where.setTableName(tableName());
+            PageResult<Entity> page = RedisDb.get().page(where, pageNumber, pageSize);
+            if (page == null) {
+                return new PageResult<T>();
+            }
+            return new PageResult<T>(page.getPage(), page.getPageSize(), page.getTotal()) {{
+                for (Entity entity : page) {
+                    add(entity.toBean(beanClass()));
+                }
+            }};
+        } catch (Exception e) {
+            throw new DbException(e.getMessage());
+        }
+    }
+
+    public List<T> list(Entity where) {
+        try {
+            where.setTableName(tableName());
+            List<T> list = RedisDb.get().find(where,beanClass());
+            if (list == null) {
+                return new ArrayList<>();
+            }
+            return list;
         } catch (Exception e) {
             throw new DbException(e.getMessage());
         }

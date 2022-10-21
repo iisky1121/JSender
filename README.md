@@ -11,7 +11,7 @@ JSender 统一多渠道推送消息格式，支持http接口模板推送和批�
 -  企业微信应用消息【[WxQySender](https://work.weixin.qq.com/api/doc/90000/90135/90236)】
 -  钉钉群机器人【[DingTalkSender](https://developers.dingtalk.com/document/robots/custom-robot-access)】
 -  Email(JavaMail+STMP)【[JavaMailSender](https://javaee.github.io/javamail/)】
--  阿里云短信服务(国内+国外)【[AliSmsSender](https://www.aliyun.com/product/sms)】
+-  阿里云短信服务(国内+国际)【AliSmsSender】[[国内](https://www.aliyun.com/product/sms)] [[国际](https://www.alibabacloud.com/help/zh/product/44282.html)]
 -  阿里云邮件推送【[AliDmsSender](https://www.aliyun.com/product/directmail)】
 -  阿里云语音服务【[AliVmsSender](https://www.aliyun.com/product/vms)】
 
@@ -312,6 +312,12 @@ util  -- 工具包
 5.  发送等其他功能查看 `JSender.java`
 
 #### 更新日志
+#####  v1.2 (2022-10-21)
+````
+1.  微信小程序和微信公众号Fix；
+2.  区分SMS国内和国际版本；
+3.  DbTable增加list和page；
+ ```` 
 #####  v1.1 (2021-12-23)
 ````
 1.  支持xml格式；

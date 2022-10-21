@@ -14,22 +14,24 @@
  * limitations under the License.
  */
 
-package com.iisky.jsender.sender.impl;
+package com.iisky.jsender.http.action.cfg;
 
-import com.iisky.jsender.sdk.weixin.mp.WxMpApi;
-import com.iisky.jsender.sdk.weixin.mp.WxMpCfg;
-import com.iisky.jsender.sender.ISender;
+import cn.hutool.db.Entity;
+import com.alibaba.fastjson.JSONObject;
+import com.iisky.jsender.db.table.ApiConfigTable;
+import com.iisky.jsender.http.IAction;
+import com.iisky.jsender.http.Router;
 import com.iisky.jsender.utils.Resp;
 
 /**
  * @author iisky1121
- * @date 2021-09-01
+ * @date 2021-09-29
  */
-public class WxMpSender implements ISender<WxMpCfg> {
+@Router("/cfg/page")
+public class Page implements IAction {
 
     @Override
-    public Resp send(WxMpCfg cfg, String body) {
-        return WxMpApi.sendMsg(cfg, body);
+    public Resp action(JSONObject argJson) {
+        return IAction.page(argJson, (pageNumber, pageSize) -> ApiConfigTable.dao.page(pageNumber, pageSize, new Entity()));
     }
-
 }

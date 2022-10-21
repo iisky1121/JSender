@@ -29,7 +29,7 @@ public class WxMiniAppSender implements ISender<WxMpCfg> {
 
     @Override
     public Resp send(WxMpCfg cfg, String body) {
-        return WxMpApi.sendMsg(cfg, body);
+        return WxMpApi.sendMiniAppMsg(cfg, body);
     }
 
 }
